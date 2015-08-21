@@ -1,9 +1,13 @@
-import urllib
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
 
 import requests
 
 import soundcloud
-import hashconversions
+
+from . import hashconversions
 
 
 def is_file_like(f):
@@ -118,7 +122,7 @@ def make_request(method, url, params):
         raise TypeError('Unknown method: %s' % (method,))
 
     if method == 'get':
-        qs = urllib.urlencode(data)
+        qs = urlencode(data)
         result = request_func('%s?%s' % (url, qs), **kwargs)
     else:
         kwargs['data'] = data
